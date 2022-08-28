@@ -110,6 +110,7 @@ export default {
   text-align: center;
   overflow: hidden;
   .child-popup-quantificationType{
+  min-height: 60px;
     background: #21AD82;
     font-size: 16px;
     font-weight: bold;
