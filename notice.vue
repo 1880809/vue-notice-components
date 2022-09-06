@@ -47,17 +47,19 @@ export default {
     popupShow1 () {
 
       this.$nextTick(() => {
-        let imgs = document.getElementById('img-content')
-        let img = imgs.querySelector('img');
-        img.addEventListener('click',(e)=> {
-          let target = e.target; // 获取当前点击的目标子元素
-          if(target.nodeName === 'IMG'){
-            this.popupImgSrc = target.getAttribute('src')
-            this.popupImShow = true
-          }
+        setTimeout(() => {
+          let imgs = document.getElementById('img-content')
+          let img = imgs.querySelector('img');
+          img.addEventListener('click',(e)=> {
+            let target = e.target; // 获取当前点击的目标子元素
+            if(target.nodeName === 'IMG'){
+              this.popupImgSrc = target.getAttribute('src')
+              this.popupImShow = true
+            }
 
-        });
-        return false
+          });
+          return false
+        }, 500)
       })
 
     }
