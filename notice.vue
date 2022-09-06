@@ -6,69 +6,65 @@
         <img src="../static/images/img_notice.png" class="child-popup-quantificationType-img">
 <!--        {{ $t('message.notice') }}-->
       </view>
-      <view class="content" >
-        <view v-html="content.title">
-        </view>
+      <view class="content" id="img-content">
+        <view v-html="content.title"></view>
+<!--        <wxParse :nodes="content.title" />-->
         <view class="submit-btns">
-          <view class="submit-btn submit-btn1" @click="confirm(1)">确定</view>
+          <view class="submit-btn submit-btn1" @click="confirm(1)">分享有奖</view>
+          <section class="submit-btn" @click="confirm(2)" v-if="btnShow">关闭</section>
         </view>
       </view>
     </view>
 
     <view class="popup-img-bg" v-if="popupImShow" @click="popupImShow = false"></view>
     <img class="popup-img-box" :src="popupImgSrc" v-if="popupImShow">
+<!--    <view class="popup-img-box">
+
+  <img class="popup-img" :src="popupImgSrc" v-if="popupImShow">
+    </view>-->
 
   </view>
 </template>
 
 <script>
-// 使用的页面
-// import notice from '@/components/notice';
-/*components: {
-      notice,
-},*/
-// data里面
-/*noticeShow: false,
-    noticeContent: {
-  title: '公告内容'
-},*/
-// <notice :popupShow="noticeShow" :content="noticeContent"  @onHandler="onConfirm"></notice>
-// 公告
-/*onConfirm (type) {
-    this.noticeShow = false
-},*/
 export default {
   components: {
 
   },
   props: {
     popupShow: false,
+    btnShow: false,
     content: {},
   },
   data() {
     return {
+      popupShow1: false,
       popupImShow: false,
       popupImgSrc: '',
     };
   },
   watch: {
-    popupShow () {
-      this.$nextTick(() => {
-        let imgs = document.getElementsByClassName('content')[0].getElementsByTagName('img')
+    popupShow1 () {
 
-        for (const item of imgs) {
-          item.onclick = () => {
-            this.popupImgSrc = item.getAttribute('src')
+      this.$nextTick(() => {
+        let imgs = document.getElementById('img-content')
+        let img = imgs.querySelector('img');
+        img.addEventListener('click',(e)=> {
+          let target = e.target; // 获取当前点击的目标子元素
+          if(target.nodeName === 'IMG'){
+            this.popupImgSrc = target.getAttribute('src')
             this.popupImShow = true
           }
-        }
+
+        });
+        return false
       })
 
     }
   },
   computed: {},
   created() {
-
+    this.popupShow1 = true
   },
   mounted() {
 
@@ -92,14 +88,14 @@ export default {
   top: 0;
   height: 100vh;
   width: 100%;
-  z-index: 999;
+  z-index: 10000;
   background: rgba(0,0,0,.5);
 }
 .popup-box{
   position: fixed;
   left: 50%;
   top: 50%;
-  z-index: 1000;
+  z-index: 10001;
   transform: translate(-50%, -50%);
   border-radius: 10px;
   overflow: hidden;
@@ -110,8 +106,8 @@ export default {
   text-align: center;
   overflow: hidden;
   .child-popup-quantificationType{
-  min-height: 60px;
     background: #21AD82;
+    min-height: 60px;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
@@ -179,22 +175,28 @@ export default {
   top: 0;
   height: 100vh;
   width: 100%;
-  z-index: 999;
+  z-index: 9999999;
   background: rgba(0,0,0,1);
 }
 .popup-img-box{
   position: fixed;
   left: 50%;
   top: 50%;
-  max-height: 70%;
-  z-index: 1000;
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 10000000;
   transform: translate(-50%, -50%);
+  overflow: scroll;
+  border-radius: 5px;
+}
+.popup-img{
+  width: 100%;
+  border-radius: 5px;
 }
 
 .child-popup-quantificationType-img{
   width: 100%;
   display: block;
 }
-
 
 </style>
